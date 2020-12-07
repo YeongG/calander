@@ -1,5 +1,5 @@
 const express = require("express");
-const { makePassword, makeAccess } = require("../lib/func");
+const { makePassword, makeAccess } = require("../lib/api");
 const { User } = require("../models");
 const joi = require("joi");
 

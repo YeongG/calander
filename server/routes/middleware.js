@@ -1,4 +1,4 @@
-const { checkJWT } = require("../lib/func");
+const { checkJWT } = require("../lib/api");
 
 const isLogined = async (req, res, next) => {
   const token = req.headers.authorization;

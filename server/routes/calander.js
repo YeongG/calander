@@ -1,5 +1,5 @@
 const { User, Calander } = require("../models");
-const { isLogined } = require("../routes/middlewares");
+const { isLogined } = require("./middleware");
 const calanderRouter = require("express").Router();
 
 calanderRouter.get("/", isLogined, async (req, res, next) => {
@@ -36,6 +36,50 @@ calanderRouter.post("/", isLogined, async (req, res, next) => {
     userId: id,
   });
   res.json(200);
+});
+
+calanderRouter.patch("/success/:id", isLogined, async (req, res, next) => {
+  const {
+    params: { id },
+    decode: { id: userId },
+  } = req;
+
+  try {
+    await Calander.update(
+      { id: parseInt(id), isDone: true },
+      {
+        where: {
+          id,
+          userId,
+        },
+      }
+    );
+    res.status(200).json({ message: "수정 완료" });
+  } catch (err) {
+    res.status(404).json({ message: "id가 없습니다" });
+  }
+});
+
+calanderRouter.patch("/fail/:id", isLogined, async (req, res, next) => {
+  const {
+    params: { id },
+    decode: { id: userId },
+  } = req;
+
+  try {
+    await Calander.update(
+      { id, isDone: false },
+      {
+        where: {
+          id,
+          userId,
+        },
+      }
+    );
+    res.status(200).json({ message: "수정 완료" });
+  } catch (err) {
+    res.status(404).json({ message: "id가 없습니다" });
+  }
 });
 
 module.exports = calanderRouter;
